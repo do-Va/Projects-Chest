@@ -29,9 +29,11 @@ const GlobalStyles = createGlobalStyle`
   --white-2: #DFE3FA; 
 
   --gray: #888EB0;
-  --gray-1: #252945;
-  --gray-2: #1E2139;
-  --gray-3: #0C0E16;
+  --gray-1: #494E6E;
+  --gray-2: #252945;
+  --gray-3: #1E2139;
+  --gray-4: #0C0E16;
+  
 
   --blue-gray: #7E88C3;
 
@@ -57,6 +59,7 @@ const GlobalStyles = createGlobalStyle`
   --br-md: 8px;
   --br-lg: 20px;
   --br-xl: 24px;
+  --br-full: 50%;
 
   --max-width: 736px;
   --form-max-width: 617px;
