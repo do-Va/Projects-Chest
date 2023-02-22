@@ -28,18 +28,34 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Hash the password before saving.
+/**
+ * Hash the password before saving.
+ */
 UserSchema.pre('save', async function () {
   const salt = await bcrypt.genSalt(10);
 
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Generate token
+/**
+ * Generate token
+ * @returns token
+ */
 UserSchema.methods.createJWT = function () {
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
+};
+
+/**
+ * Check if the entered password is the same as the password in the database.
+ * @param {*} candidatePassword
+ * @returns boolean
+ */
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+
+  return isMatch;
 };
 
 export default mongoose.model('User', UserSchema);
