@@ -1,29 +1,26 @@
+import { StatusCodes } from 'http-status-codes';
+
 import User from '../model/User.js';
+import { BadRequestErrors, NotFoundErrors } from '../errors/index.js';
 
 const register = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      console.log('Please provide all values');
-    }
-
-    const userAlreadyExists = await User.findOne({ email });
-
-    if (userAlreadyExists) {
-      console.log('Email already in use');
-    }
-
-    const user = await User.create({ name, email, password });
-
-    res.status(200).json({
-      user: { email: user.email, name: user.name },
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.send(error);
+  if (!name || !email || !password) {
+    throw new BadRequestErrors('please provide all values');
   }
+
+  const userAlreadyExists = await User.findOne({ email });
+
+  if (userAlreadyExists) {
+    throw new BadRequestErrors('Email already in use');
+  }
+
+  const user = await User.create({ name, email, password });
+
+  res.status(StatusCodes.CREATED).json({
+    user: { email: user.email, name: user.name },
+  });
 };
 
 const login = async (req, res) => {};
