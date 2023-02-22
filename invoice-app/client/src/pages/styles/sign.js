@@ -17,6 +17,18 @@ const Wrapper = styled.form`
     color: var(--theme-color);
     text-transform: uppercase;
   }
+
+  .member {
+    color: var(--gray-1);
+    font-size: var(--f-sm);
+  }
+
+  .btn {
+    border: none;
+    background-color: transparent;
+    color: var(--purple);
+    font-size: var(--f-md);
+  }
 `;
 
 export default Wrapper;

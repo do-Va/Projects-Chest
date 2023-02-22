@@ -9,7 +9,6 @@ const Wrapper = styled.button`
 
   display: grid;
   place-content: center;
-  cursor: pointer;
 
   background-color: var(${props => props.background});
   color: var(${props => props.color});
