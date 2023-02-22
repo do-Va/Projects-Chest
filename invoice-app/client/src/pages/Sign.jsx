@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { TextInput, InputGroup, Button } from '../components/common';
+import { useAppContext } from '../context/appContext';
 import Wrapper from './styles/sign';
 
 const initialState = {
@@ -13,6 +14,9 @@ const initialState = {
 const SignPage = () => {
   const [values, setValues] = useState(initialState);
 
+  // global state
+  const { isLoading, setupUser } = useAppContext();
+
   const handleChange = evn => {
     setValues({ ...values, [evn.target.name]: evn.target.value });
   };
@@ -20,7 +24,27 @@ const SignPage = () => {
   const handleSubmit = evn => {
     evn.preventDefault();
 
-    console.log(values);
+    const { name, email, password, isMember } = values;
+
+    if (!email || !password || (!isMember && !name)) {
+      console.log('Error');
+
+      return;
+    }
+
+    const currentUser = { name, email, password };
+
+    if (isMember) {
+      setupUser({
+        currentUser,
+        endPoint: 'login',
+      });
+    } else {
+      setupUser({
+        currentUser,
+        endPoint: 'register',
+      });
+    }
   };
 
   const toggleMember = () => {
