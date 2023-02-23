@@ -38,6 +38,39 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // axios
+  const authFetch = axios.create({
+    baseURL: '/api/v1',
+  });
+
+  // request
+  authFetch.interceptors.request.use(
+    config => {
+      config.headers['Authorization'] = `Bearer ${state.token}`;
+
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
+    }
+  );
+
+  // response
+  authFetch.interceptors.response.use(
+    response => {
+      return response;
+    },
+    error => {
+      console.log(error.response);
+
+      if (error.response.status === 401) {
+        logoutUser();
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
     dispatch({ type: SETUP_USER_BEGIN });
 
