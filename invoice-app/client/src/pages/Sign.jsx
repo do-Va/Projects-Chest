@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { TextInput, InputGroup, Button } from '../components/common';
 import { useAppContext } from '../context/appContext';
@@ -12,10 +13,11 @@ const initialState = {
 };
 
 const SignPage = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
 
   // global state
-  const { isLoading, setupUser } = useAppContext();
+  const { user, isLoading, setupUser, displayAlert } = useAppContext();
 
   const handleChange = evn => {
     setValues({ ...values, [evn.target.name]: evn.target.value });
@@ -27,7 +29,7 @@ const SignPage = () => {
     const { name, email, password, isMember } = values;
 
     if (!email || !password || (!isMember && !name)) {
-      console.log('Error');
+      displayAlert();
 
       return;
     }
@@ -38,14 +40,24 @@ const SignPage = () => {
       setupUser({
         currentUser,
         endPoint: 'login',
+        alertText: 'Login Successful!',
       });
     } else {
       setupUser({
         currentUser,
         endPoint: 'register',
+        alertText: 'User Created!',
       });
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }
+  }, [user, navigate]);
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });

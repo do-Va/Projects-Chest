@@ -52,7 +52,7 @@ const GlobalStyles = createGlobalStyle`
   --st-dark-grey: #292C44;
 
   --theme-color: #858BB2;
-  --transition-all: all .2s linear;
+  --transition-all: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   /* *** END OF COLORS *** */
  
   /* Border Radius */
