@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components/macro';
+import mediaQuery from './mediaQuery';
 
 const GlobalStyles = createGlobalStyle`
 :root {
@@ -52,7 +53,8 @@ const GlobalStyles = createGlobalStyle`
   --st-dark-grey: #292C44;
 
   --theme-color: #858BB2;
-  --transition-all: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+  --transition-all: all 0.2s linear;
+  --transition-all-cb: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   /* *** END OF COLORS *** */
  
   /* Border Radius */
@@ -122,6 +124,17 @@ h1, h2, h3, h4, h5 {
   width: 90%;
   max-width: var(--max-width);
   margin: 0 auto;
+}
+
+.grid-center {
+  display: grid;
+  place-content: center;
+}
+
+#root {
+  @media ${mediaQuery.desktop} {
+    display: flex;
+  }
 }
 `;
 

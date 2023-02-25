@@ -4,7 +4,7 @@ const Wrapper = styled.div`
   width: 250px;
   height: 70px;
   background-color: var(--gray-2);
-  transition: var(--transition-all);
+  transition: var(--transition-all-cb);
   border-radius: var(--br-sm);
   display: flex;
   align-items: center;

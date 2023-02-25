@@ -9,10 +9,14 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 
-  img {
+  .circle {
     width: 32px;
     height: 32px;
+    background-color: var(--white-2);
     border-radius: var(--br-full);
+    display: grid;
+    place-content: center;
+    text-transform: uppercase;
   }
 
   @media ${mediaQuery.tablet} {
@@ -26,7 +30,7 @@ const Wrapper = styled.div`
     border-left: none;
     border-top: 2px solid var(--gray-1);
 
-    img {
+    .circle {
       width: 40px;
       height: 40px;
     }

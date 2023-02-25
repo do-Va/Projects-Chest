@@ -1,10 +1,13 @@
 import Wrapper from './styles/avatar';
 import avatar from '../../assets/image-avatar.jpg';
+import { useAppContext } from '../../context/appContext';
 
 const Avatar = () => {
+  const { user } = useAppContext();
+
   return (
     <Wrapper>
-      <img src={avatar} alt="" />
+      <div className="circle">{user?.name[0]}</div>
     </Wrapper>
   );
 };
