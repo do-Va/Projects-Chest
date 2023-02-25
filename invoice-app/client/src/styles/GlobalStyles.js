@@ -70,7 +70,7 @@ const GlobalStyles = createGlobalStyle`
   --border: 2px solid var(--gray-2);
   --border-active: var(--purple);
 
-  --max-width: 736px;
+  --max-width: 730px;
   --form-max-width: 617px;
 }
 
@@ -118,7 +118,7 @@ h1, h2, h3, h4, h5 {
   line-height: 1.3;
 }
 
-#root, #__next { isolation: isolate; }
+#root { isolation: isolate; }
 
 .max-container {
   width: 90%;
@@ -129,12 +129,6 @@ h1, h2, h3, h4, h5 {
 .grid-center {
   display: grid;
   place-content: center;
-}
-
-#root {
-  @media ${mediaQuery.desktop} {
-    display: flex;
-  }
 }
 `;
 
