@@ -8,10 +8,12 @@ import connectDB from './database/connect.js';
 
 // routes
 import authRouter from './routes/authRoutes.js';
+import invoiceRouter from './routes/invoiceRoutes.js';
 
 // middleware
 import errorHandlerMiddleware from './middleware/error-handler.js';
 import notFoundMiddleware from './middleware/not-found.js';
+import authenticateUser from './middleware/auth.js';
 
 const app = express();
 dotenv.config();
@@ -29,6 +31,7 @@ app.get('/', (req, res) => {
 const base = '/api/v1';
 
 app.use(`${base}/auth`, authRouter);
+app.use(`${base}/invoice`, authenticateUser, invoiceRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
