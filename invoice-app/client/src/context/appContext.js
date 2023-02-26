@@ -9,6 +9,11 @@ import {
   SETUP_USER_BEGIN,
   SETUP_USER_ERROR,
   SETUP_USER_SUCCESS,
+  CREATE_INVOICE_BEGIN,
+  CREATE_INVOICE_ERROR,
+  CREATE_INVOICE_SUCCESS,
+  CLEAR_VALUES,
+  HANDLE_CHANGE,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -24,7 +29,30 @@ const removeUserFromLocalStorage = () => {
   localStorage.removeItem('user');
 };
 
+const clientState = {
+  clientName: '',
+  clientEmail: '',
+  clientAddress: '',
+  clientCity: '',
+  clientPostCode: '',
+  clientCountry: '',
+};
+
+const invoiceState = {
+  name: '',
+  address: '',
+  city: '',
+  postCode: '',
+  country: '',
+  date: '',
+  paymentTerms: 1,
+  paymentTermsOption: [1, 7, 14, 30],
+  items: [],
+};
+
 const initialState = {
+  ...clientState,
+  ...invoiceState,
   isLoading: false,
   user: user ? JSON.parse(user) : null,
   token,
@@ -38,7 +66,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // axios
+  //#region Axios Setup
   const authFetch = axios.create({
     baseURL: '/api/v1',
   });
@@ -70,7 +98,32 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
+  //#endregion
 
+  //#region Functions
+  const displayAlert = () => {
+    dispatch({ type: DISPLAY_ALERT });
+
+    clearAlert();
+  };
+
+  const clearAlert = () => {
+    setTimeout(() => {
+      dispatch({ type: CLEAR_ALERT });
+    }, 3000);
+  };
+
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
+  };
+
+  const handleChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  };
+  //#endregion
+
+  //#region User
+  // Register and Login
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
     dispatch({ type: SETUP_USER_BEGIN });
 
@@ -98,26 +151,59 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  // logout User
   const logoutUser = () => {
     dispatch({ type: LOGOUT_USER });
     removeUserFromLocalStorage();
   };
+  //#endregion
 
-  const displayAlert = () => {
-    dispatch({ type: DISPLAY_ALERT });
+  //#region Invoice
+  const createInvoice = async () => {
+    dispatch({ type: CREATE_INVOICE_BEGIN });
 
-    clearAlert();
+    try {
+      const {
+        clientName,
+        clientEmail,
+        clientAddress,
+        clientCity,
+        clientPostCode,
+        clientCountry,
+        name,
+        address,
+        city,
+        postCode,
+        country,
+        date,
+        paymentTerms,
+        items,
+      } = state;
+
+      dispatch({ type: CREATE_INVOICE_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: CREATE_INVOICE_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
   };
-
-  const clearAlert = () => {
-    setTimeout(() => {
-      dispatch({ type: CLEAR_ALERT });
-    }, 3000);
-  };
+  //#endregion
 
   return (
     <AppContext.Provider
-      value={{ ...state, setupUser, logoutUser, displayAlert }}
+      value={{
+        ...state,
+        setupUser,
+        logoutUser,
+        displayAlert,
+        clearValues,
+        createInvoice,
+        handleChange,
+      }}
     >
       {children}
     </AppContext.Provider>
