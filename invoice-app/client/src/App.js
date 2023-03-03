@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { useAppContext } from './context/appContext';
 import { SignPage, ErrorPage, ProtectedRoute } from './pages';
 import { SharedLayout, Invoice } from './pages/dashboard';
+import AddInvoice from './components/form/AddInvoice';
 import AlertBox from './components/common/AlertBox';
-import { useAppContext } from './context/appContext';
 
 function App() {
-  const { showAlert } = useAppContext();
+  const { showAlert, showForm } = useAppContext();
 
   return (
     <BrowserRouter>
       {showAlert && <AlertBox />}
+      {showForm && <AddInvoice />}
 
       <Routes>
         <Route

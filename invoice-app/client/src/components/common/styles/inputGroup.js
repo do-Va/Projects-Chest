@@ -1,7 +1,8 @@
 import styled from 'styled-components/macro';
 
 const Wrapper = styled.div`
-  width: 100%;
+  min-width: ${props => (props.width ? props.width : '152px')};
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 9px;

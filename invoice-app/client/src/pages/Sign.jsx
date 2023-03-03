@@ -68,7 +68,7 @@ const SignPage = () => {
       <h3>{values.isMember ? 'Login' : 'Register'}</h3>
 
       {!values.isMember && (
-        <InputGroup name="name">
+        <InputGroup name="name" width="100%">
           <TextInput
             name="name"
             id="name"
@@ -79,7 +79,7 @@ const SignPage = () => {
         </InputGroup>
       )}
 
-      <InputGroup name="email">
+      <InputGroup name="email" width="100%">
         <TextInput
           name="email"
           id="email"
@@ -89,7 +89,7 @@ const SignPage = () => {
         />
       </InputGroup>
 
-      <InputGroup name="password">
+      <InputGroup name="password" width="100%">
         <TextInput
           name="password"
           id="password"

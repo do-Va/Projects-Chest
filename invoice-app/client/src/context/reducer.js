@@ -10,6 +10,10 @@ import {
   CREATE_INVOICE_ERROR,
   CREATE_INVOICE_SUCCESS,
   HANDLE_CHANGE,
+  DISPLAY_FORM,
+  ADD_INVOICE_ITEM,
+  CHANGE_INVOICE_ITEM,
+  DELETE_INVOICE_ITEM,
 } from './action';
 
 import { initialState } from './appContext';
@@ -49,6 +53,8 @@ const reducer = (state, action) => {
       country: '',
       date: '',
       paymentTerms: 1,
+      status: '',
+      description: '',
       items: [],
     };
 
@@ -62,6 +68,13 @@ const reducer = (state, action) => {
     return {
       ...state,
       [action.payload.name]: action.payload.value,
+    };
+  }
+
+  if (action.type === DISPLAY_FORM) {
+    return {
+      ...state,
+      showForm: action.payload,
     };
   }
   //#endregion
@@ -126,6 +139,52 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg,
+    };
+  }
+  //#endregion
+
+  //#region Invoice item
+  if (action.type === ADD_INVOICE_ITEM) {
+    const timestamp = Date.now().toString(36);
+
+    return {
+      ...state,
+      items: [
+        ...state.items,
+        {
+          name: '',
+          quantity: 0,
+          price: 0,
+          amount: 0,
+          check: timestamp,
+        },
+      ],
+    };
+  }
+
+  if (action.type === CHANGE_INVOICE_ITEM) {
+    const tempObj = state.items.map(item => {
+      if (item.check === action.payload.check) {
+        item[action.payload.name] = action.payload.value;
+
+        item.amount = (item.price * item.quantity).toFixed(2);
+      }
+
+      return item;
+    });
+
+    return {
+      ...state,
+      items: tempObj,
+    };
+  }
+
+  if (action.type === DELETE_INVOICE_ITEM) {
+    const tempObj = state.items.filter(item => item.check !== action.payload);
+
+    return {
+      ...state,
+      items: tempObj,
     };
   }
   //#endregion

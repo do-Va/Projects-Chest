@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components/macro';
-import mediaQuery from './mediaQuery';
 
 const GlobalStyles = createGlobalStyle`
 :root {
@@ -19,7 +18,6 @@ const GlobalStyles = createGlobalStyle`
 
   --fw-medium: 500;
   --fw-bold: 700;
-
  
   --font-family: 'League Spartan', sans-serif;
   /* *** END OF FONTS *** */
@@ -33,9 +31,11 @@ const GlobalStyles = createGlobalStyle`
   --gray-1: #494E6E;
   --gray-2: #252945;
   --gray-3: #1E2139;
+  --gray-4: #373B53;
 
   --dark-1: #141625;
-  --dark-2: #0C0E16;  
+  --dark-2: #0C0E16; 
+  --black: #000000;  
 
   --blue-gray: #7E88C3;
 
@@ -106,6 +106,20 @@ a {
 
 input, button, textarea, select { font: inherit; }
 
+// hide input:number arrow
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// hide input:number arrow
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 button {
   cursor: pointer;
 }
@@ -117,6 +131,7 @@ h1, h2, h3, h4, h5 {
   font-family: var(--font-family);
   line-height: 1.3;
 }
+
 
 #root { isolation: isolate; }
 

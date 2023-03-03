@@ -13,6 +13,7 @@ const createInvoice = async (req, res) => {
     country,
     date,
     paymentTerms,
+    status,
     items,
     clientName,
     clientEmail,
@@ -30,6 +31,7 @@ const createInvoice = async (req, res) => {
     !country ||
     !date ||
     !paymentTerms ||
+    !status ||
     !items ||
     !clientName ||
     !clientEmail ||
@@ -62,6 +64,7 @@ const createInvoice = async (req, res) => {
     date,
     paymentTerms,
     items,
+    status,
     client: clientId,
     createdBy: userId,
   });

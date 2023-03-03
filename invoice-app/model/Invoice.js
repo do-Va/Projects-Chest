@@ -31,12 +31,21 @@ const InvoiceSchema = new mongoose.Schema(
       enum: [1, 7, 14, 30],
       required: [true, 'Please provide payment terms'],
     },
+    status: {
+      type: String,
+      enum: ['paid', 'pending', 'draft'],
+      required: [true, 'Please provide status'],
+    },
     items: [
       {
         name: { type: String, required: [true, 'Please provide name'] },
-        quantity: { type: Number, required: [true, 'Please provide quantity'] },
+        quantity: {
+          type: Number,
+          required: [true, 'Please provide quantity'],
+        },
         price: { type: Number, required: [true, 'Please provide price'] },
-        amount: { type: Number, required: [true, 'Please provide country'] },
+        amount: { type: Number },
+        check: { type: String },
       },
     ],
     client: {

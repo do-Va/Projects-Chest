@@ -6,12 +6,14 @@ const Wrapper = styled.nav`
   width: 100%;
   height: 72px;
   background-color: var(--gray-2);
+  position: relative;
+  z-index: 10;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  @media ${mediaQuery.phone} {
+  @media ${mediaQuery.tablet} {
     height: 80px;
   }
 

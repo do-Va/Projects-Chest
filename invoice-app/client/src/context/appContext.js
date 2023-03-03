@@ -14,6 +14,10 @@ import {
   CREATE_INVOICE_SUCCESS,
   CLEAR_VALUES,
   HANDLE_CHANGE,
+  DISPLAY_FORM,
+  ADD_INVOICE_ITEM,
+  CHANGE_INVOICE_ITEM,
+  DELETE_INVOICE_ITEM,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -47,6 +51,8 @@ const invoiceState = {
   date: '',
   paymentTerms: 1,
   paymentTermsOption: [1, 7, 14, 30],
+  status: '',
+  description: '',
   items: [],
 };
 
@@ -57,6 +63,7 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   token,
   showAlert: false,
+  showForm: false,
   alertText: '',
   alertType: '',
 };
@@ -120,6 +127,10 @@ const AppProvider = ({ children }) => {
   const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
+
+  const displayForm = value => {
+    dispatch({ type: DISPLAY_FORM, payload: value });
+  };
   //#endregion
 
   //#region User
@@ -158,8 +169,22 @@ const AppProvider = ({ children }) => {
   };
   //#endregion
 
+  //#region Invoice Items
+  const addInvoiceItem = () => {
+    dispatch({ type: ADD_INVOICE_ITEM });
+  };
+
+  const changeInvoiceItemValue = ({ check, name, value }) => {
+    dispatch({ type: CHANGE_INVOICE_ITEM, payload: { check, name, value } });
+  };
+
+  const deleteInvoiceItem = check => {
+    dispatch({ type: DELETE_INVOICE_ITEM, payload: check });
+  };
+  //#endregion
+
   //#region Invoice
-  const createInvoice = async () => {
+  const createInvoice = async status => {
     dispatch({ type: CREATE_INVOICE_BEGIN });
 
     try {
@@ -180,7 +205,27 @@ const AppProvider = ({ children }) => {
         items,
       } = state;
 
+      await authFetch.post('/invoice', {
+        clientName,
+        clientEmail,
+        clientAddress,
+        clientCity,
+        clientPostCode,
+        clientCountry,
+        name,
+        address,
+        city,
+        postCode,
+        country,
+        date,
+        paymentTerms,
+        status,
+        items,
+      });
+
       dispatch({ type: CREATE_INVOICE_SUCCESS });
+
+      displayForm(false);
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
@@ -190,6 +235,8 @@ const AppProvider = ({ children }) => {
         payload: { msg: error.response.data.msg },
       });
     }
+
+    clearAlert();
   };
   //#endregion
 
@@ -203,6 +250,10 @@ const AppProvider = ({ children }) => {
         clearValues,
         createInvoice,
         handleChange,
+        displayForm,
+        addInvoiceItem,
+        changeInvoiceItemValue,
+        deleteInvoiceItem,
       }}
     >
       {children}

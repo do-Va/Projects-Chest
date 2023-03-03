@@ -12,8 +12,8 @@ const Wrapper = styled.div`
   gap: 20px;
   padding: 20px;
 
-  position: absolute;
-  z-index: 100;
+  position: fixed;
+  z-index: 11;
   top: 50px;
   left: 50%;
   transform: translate(-50%, -200%);

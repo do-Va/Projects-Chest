@@ -1,9 +1,9 @@
 import Wrapper from './styles/inputGroup';
 
-const InputGroup = ({ children, name }) => {
+const InputGroup = ({ children, name, longName, width, item }) => {
   return (
-    <Wrapper>
-      <label htmlFor={name}>{name}</label>
+    <Wrapper width={width} item={item}>
+      <label htmlFor={name}>{longName || name}</label>
       {children}
     </Wrapper>
   );

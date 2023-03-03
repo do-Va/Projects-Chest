@@ -21,6 +21,7 @@ const Wrapper = styled.button`
     height: 32px;
     border-radius: var(--br-full);
     background-color: var(--white);
+    color: var(--purple);
   }
 
   &:hover {
