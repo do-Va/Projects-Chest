@@ -66,6 +66,7 @@ const initialState = {
   showForm: false,
   alertText: '',
   alertType: '',
+  invoiceAlert: false,
 };
 
 const AppContext = React.createContext();

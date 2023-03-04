@@ -11,6 +11,10 @@ const Wrapper = styled.input`
   border-radius: var(--br-xs);
   outline: none;
 
+  &:required {
+    border-color: var(--red);
+  }
+
   &:active,
   &:focus {
     border-color: var(--border-active);

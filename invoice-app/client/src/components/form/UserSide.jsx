@@ -4,7 +4,7 @@ import { InputGroup, TextInput } from '../common';
 import { useAppContext } from '../../context/appContext';
 
 const UserSide = () => {
-  const { handleChange } = useAppContext();
+  const { handleChange, address, city, postCode, country } = useAppContext();
 
   const handleInvoiceInput = evn => {
     const name = evn.target.name;
@@ -21,6 +21,7 @@ const UserSide = () => {
         <TextInput
           name="address"
           id="address"
+          value={address}
           type="text"
           placeholder="street address"
           onChange={handleInvoiceInput}
@@ -34,6 +35,7 @@ const UserSide = () => {
             id="city"
             type="text"
             placeholder="city"
+            value={city}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -44,6 +46,7 @@ const UserSide = () => {
             id="postCode"
             type="text"
             placeholder="post code"
+            value={postCode}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -54,6 +57,7 @@ const UserSide = () => {
             id="country"
             type="text"
             placeholder="country"
+            value={country}
             onChange={handleInvoiceInput}
           />
         </InputGroup>

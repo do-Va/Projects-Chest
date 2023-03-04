@@ -6,7 +6,7 @@ import { useAppContext } from '../../context/appContext';
 import randomName from './helpers/addInvoice.functions';
 
 const AddInvoice = () => {
-  const { handleChange, createInvoice } = useAppContext();
+  const { handleChange } = useAppContext();
 
   useEffect(() => {
     handleChange({ name: 'name', value: randomName() });

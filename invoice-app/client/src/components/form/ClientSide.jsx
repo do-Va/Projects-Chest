@@ -4,7 +4,18 @@ import { DatePicker, InputGroup, Select, TextInput } from '../common';
 import { useAppContext } from '../../context/appContext';
 
 const ClientSide = () => {
-  const { handleChange, paymentTermsOption } = useAppContext();
+  const {
+    handleChange,
+    clientName,
+    clientEmail,
+    clientAddress,
+    clientCity,
+    clientPostCode,
+    clientCountry,
+    date,
+    description,
+    paymentTermsOption,
+  } = useAppContext();
 
   const handleInvoiceInput = evn => {
     const name = evn.target.name;
@@ -23,6 +34,7 @@ const ClientSide = () => {
           id="clientName"
           type="text"
           placeholder="John Doe"
+          value={clientName}
           onChange={handleInvoiceInput}
         />
       </InputGroup>
@@ -33,6 +45,7 @@ const ClientSide = () => {
           id="clientEmail"
           type="text"
           placeholder="john@example.com"
+          value={clientEmail}
           onChange={handleInvoiceInput}
         />
       </InputGroup>
@@ -43,6 +56,7 @@ const ClientSide = () => {
           id="clientAddress"
           type="text"
           placeholder="street address"
+          value={clientAddress}
           onChange={handleInvoiceInput}
         />
       </InputGroup>
@@ -54,6 +68,7 @@ const ClientSide = () => {
             id="clientCity"
             type="text"
             placeholder="city"
+            value={clientCity}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -64,6 +79,7 @@ const ClientSide = () => {
             id="clientPostCode"
             type="text"
             placeholder="post code"
+            value={clientPostCode}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -74,6 +90,7 @@ const ClientSide = () => {
             id="clientCountry"
             type="text"
             placeholder="country"
+            value={clientCountry}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -85,6 +102,7 @@ const ClientSide = () => {
             type="date"
             name="date"
             id="date"
+            value={date}
             onChange={handleInvoiceInput}
           />
         </InputGroup>
@@ -100,6 +118,7 @@ const ClientSide = () => {
           id="description"
           type="text"
           placeholder="project description"
+          value={description}
           onChange={handleInvoiceInput}
         />
       </InputGroup>

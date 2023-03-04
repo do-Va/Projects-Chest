@@ -129,6 +129,7 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'success',
       alertText: 'New Invoice Created!',
+      invoiceAlert: false,
     };
   }
 
@@ -139,6 +140,7 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg,
+      invoiceAlert: true,
     };
   }
   //#endregion
