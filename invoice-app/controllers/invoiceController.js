@@ -72,4 +72,10 @@ const createInvoice = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ invoice });
 };
 
-export { createInvoice };
+const getAllInvoices = async (req, res) => {
+  const invoices = await Invoice.find({ createdBy: req.user.userId });
+
+  res.status(StatusCodes.OK).json({ invoices, totalInvoices: invoices.length });
+};
+
+export { createInvoice, getAllInvoices };

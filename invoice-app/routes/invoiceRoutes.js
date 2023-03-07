@@ -1,9 +1,12 @@
 import express from 'express';
 
-import { createInvoice } from '../controllers/invoiceController.js';
+import {
+  createInvoice,
+  getAllInvoices,
+} from '../controllers/invoiceController.js';
 
 const router = express.Router();
 
-router.route('/').post(createInvoice);
+router.route('/').post(createInvoice).get(getAllInvoices);
 
 export default router;
