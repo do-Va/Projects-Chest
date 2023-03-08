@@ -14,6 +14,8 @@ import {
   ADD_INVOICE_ITEM,
   CHANGE_INVOICE_ITEM,
   DELETE_INVOICE_ITEM,
+  GET_INVOICES_BEGIN,
+  GET_INVOICES_SUCCESS,
 } from './action';
 
 import { initialState } from './appContext';
@@ -141,6 +143,22 @@ const reducer = (state, action) => {
       alertType: 'danger',
       alertText: action.payload.msg,
       invoiceAlert: true,
+    };
+  }
+
+  if (action.type === GET_INVOICES_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === GET_INVOICES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      invoices: action.payload.invoices,
+      totalInvoices: action.payload.totalInvoices,
     };
   }
   //#endregion

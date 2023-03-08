@@ -18,6 +18,8 @@ import {
   ADD_INVOICE_ITEM,
   CHANGE_INVOICE_ITEM,
   DELETE_INVOICE_ITEM,
+  GET_INVOICES_BEGIN,
+  GET_INVOICES_SUCCESS,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -54,6 +56,8 @@ const invoiceState = {
   status: '',
   description: '',
   items: [],
+  invoices: [],
+  totalInvoices: 0,
 };
 
 const initialState = {
@@ -206,7 +210,7 @@ const AppProvider = ({ children }) => {
         items,
       } = state;
 
-      await authFetch.post('/invoice', {
+      await authFetch.post('/invoices', {
         clientName,
         clientEmail,
         clientAddress,
@@ -225,7 +229,7 @@ const AppProvider = ({ children }) => {
       });
 
       dispatch({ type: CREATE_INVOICE_SUCCESS });
-
+      getAllInvoices();
       displayForm(false);
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
@@ -238,6 +242,28 @@ const AppProvider = ({ children }) => {
     }
 
     clearAlert();
+  };
+
+  const getAllInvoices = async () => {
+    let url = `/invoices`;
+
+    dispatch({ type: GET_INVOICES_BEGIN });
+
+    try {
+      const { data } = await authFetch(url);
+
+      const { invoices, totalInvoices } = data;
+
+      dispatch({
+        type: GET_INVOICES_SUCCESS,
+        payload: {
+          invoices,
+          totalInvoices,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   //#endregion
 
@@ -255,6 +281,7 @@ const AppProvider = ({ children }) => {
         addInvoiceItem,
         changeInvoiceItemValue,
         deleteInvoiceItem,
+        getAllInvoices,
       }}
     >
       {children}

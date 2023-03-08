@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 const base = '/api/v1';
 
 app.use(`${base}/auth`, authRouter);
-app.use(`${base}/invoice`, authenticateUser, invoiceRouter);
+app.use(`${base}/invoices`, authenticateUser, invoiceRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

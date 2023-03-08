@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import validator from 'validator';
 
 const InvoiceSchema = new mongoose.Schema(
   {
@@ -48,10 +49,34 @@ const InvoiceSchema = new mongoose.Schema(
         check: { type: String },
       },
     ],
-    client: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Client',
-      required: [true, 'Please provide client'],
+    clientName: {
+      type: String,
+      required: [true, 'Please provide name'],
+    },
+    clientEmail: {
+      type: String,
+      required: [true, 'Please provide email'],
+      validate: {
+        validator: validator.isEmail,
+        message: 'Please provide a valid email',
+      },
+      unique: true,
+    },
+    clientAddress: {
+      type: String,
+      required: [true, 'Please provide address'],
+    },
+    clientCity: {
+      type: String,
+      required: [true, 'Please provide city'],
+    },
+    clientPostCode: {
+      type: String,
+      required: [true, 'Please provide post code'],
+    },
+    clientCountry: {
+      type: String,
+      required: [true, 'Please provide country'],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
