@@ -5,7 +5,7 @@ import {
   changeAlertColor,
   getIcon,
   setupTransform,
-} from './helpers/alertbox.functions';
+} from '../helpers/common.functions';
 
 const AlertBox = () => {
   const { showAlert, alertType, alertText } = useAppContext();

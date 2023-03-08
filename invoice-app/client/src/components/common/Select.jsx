@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import icon from '../../assets/icon-arrow-down.svg';
 import { useAppContext } from '../../context/appContext';
-import { changeText } from './helpers/select.functions';
+import { changeText } from '../helpers/common.functions';
 import Wrapper from './styles/select';
 
 const Select = ({ list }) => {

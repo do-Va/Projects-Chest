@@ -1,6 +1,6 @@
 import Wrapper from './styles/invoiceItem';
 import { InvoiceStatus } from '.';
-import { fixedDate, formatter } from './helpers/invoiceItem.functions';
+import { fixedDate, formatter } from '../helpers/invoice.functions';
 import img from '../../assets/icon-arrow-right.svg';
 
 const Invoice = ({

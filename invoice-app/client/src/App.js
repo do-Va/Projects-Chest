@@ -2,9 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { useAppContext } from './context/appContext';
 import { SignPage, ErrorPage, ProtectedRoute } from './pages';
-import { SharedLayout, Invoice } from './pages/dashboard';
-import AddInvoice from './components/form/AddInvoice';
-import AlertBox from './components/common/AlertBox';
+import { SharedLayout, Invoice, InvoiceDetail } from './pages/dashboard';
+import { AddInvoice, AlertBox } from './components';
 
 function App() {
   const { showAlert, showForm } = useAppContext();
@@ -24,6 +23,7 @@ function App() {
           }
         >
           <Route index element={<Invoice />} />
+          <Route path=":id" element={<InvoiceDetail />} />
         </Route>
         <Route path="/sign" element={<SignPage />} />
         <Route path="*" element={<ErrorPage />} />

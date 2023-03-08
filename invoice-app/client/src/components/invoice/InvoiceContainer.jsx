@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppContext } from '../../context/appContext';
 import Wrapper from './styles/invoiceContainer';
-import { InvoiceItem } from '.';
+import { InvoiceItem, EmptyInvoice } from '.';
 
 const InvoiceContainer = ({ graterThanTablet }) => {
   const { getAllInvoices, invoices } = useAppContext();
@@ -10,10 +10,10 @@ const InvoiceContainer = ({ graterThanTablet }) => {
     getAllInvoices();
   }, []);
 
-  if (invoices.length === 0) {
+  if (invoices.length === 3) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <EmptyInvoice graterThanTablet={graterThanTablet} />
       </Wrapper>
     );
   }

@@ -1,4 +1,5 @@
 import SharedLayout from './SharedLayout';
 import Invoice from './Invoice';
+import InvoiceDetail from './InvoiceDetail';
 
-export { SharedLayout, Invoice };
+export { SharedLayout, Invoice, InvoiceDetail };

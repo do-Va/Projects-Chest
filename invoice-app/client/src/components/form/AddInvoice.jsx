@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Wrapper from './styles/addInvoice';
 import { ClientSide, FormFooter, FormHeader, ItemContainer, UserSide } from '.';
 import { useAppContext } from '../../context/appContext';
-import randomName from './helpers/addInvoice.functions';
+import randomName from '../helpers/form.functions';
 
 const AddInvoice = () => {
   const { handleChange } = useAppContext();
