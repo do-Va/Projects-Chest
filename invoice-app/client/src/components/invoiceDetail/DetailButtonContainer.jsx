@@ -3,7 +3,7 @@ import { Button } from '../common';
 import Wrapper from './styles/detailButtonContainer';
 
 const DetailButtonContainer = ({ margin }) => {
-  const { setEditJob } = useAppContext();
+  const { setEditJob, changeInvoiceStatus } = useAppContext();
 
   const handleEdit = () => {
     setEditJob();
@@ -44,6 +44,7 @@ const DetailButtonContainer = ({ margin }) => {
         swidth="110px"
         width="149px"
         tWidth="131px"
+        onClick={() => changeInvoiceStatus('paid')}
       >
         Mark as Paid
       </Button>

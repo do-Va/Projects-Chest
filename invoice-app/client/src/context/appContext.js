@@ -27,6 +27,9 @@ import {
   EDIT_INVOICE_BEGIN,
   EDIT_INVOICE_ERROR,
   EDIT_INVOICE_SUCCESS,
+  CHANGE_INVOICE_STATUS_BEGIN,
+  CHANGE_INVOICE_STATUS_ERROR,
+  CHANGE_INVOICE_STATUS_SUCCESS,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -358,6 +361,30 @@ const AppProvider = ({ children }) => {
 
     clearAlert();
   };
+
+  const changeInvoiceStatus = async status => {
+    dispatch({ type: CHANGE_INVOICE_STATUS_BEGIN });
+
+    const { _id } = state.singleInvoice;
+
+    try {
+      await authFetch.put(`/invoices/${_id}`, {
+        status,
+      });
+
+      dispatch({ type: CHANGE_INVOICE_STATUS_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: CHANGE_INVOICE_STATUS_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+
+    clearAlert();
+  };
   //#endregion
 
   return (
@@ -378,6 +405,7 @@ const AppProvider = ({ children }) => {
         getSingleInvoice,
         setEditJob,
         editInvoice,
+        changeInvoiceStatus,
       }}
     >
       {children}

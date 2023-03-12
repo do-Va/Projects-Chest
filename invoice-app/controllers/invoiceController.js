@@ -4,6 +4,10 @@ import Invoice from '../model/Invoice.js';
 import { BadRequestError, NotFoundError } from '../errors/index.js';
 import checkPermissions from '../utils/checkPermissions.js';
 
+/*=============================================
+=               Create Invoice                =
+=============================================*/
+
 const createInvoice = async (req, res) => {
   const {
     name,
@@ -69,12 +73,22 @@ const createInvoice = async (req, res) => {
 
   res.status(StatusCodes.CREATED).json({ invoice });
 };
+/*=====  End of Create Invoice  ======*/
+
+/*=============================================
+=               Get All Invoice               =
+=============================================*/
 
 const getAllInvoices = async (req, res) => {
   const invoices = await Invoice.find({ createdBy: req.user.userId });
 
   res.status(StatusCodes.OK).json({ invoices, totalInvoices: invoices.length });
 };
+/*=====  End of Get All Invoice  ======*/
+
+/*=============================================
+=             Get Single Invoice              =
+=============================================*/
 
 const getSingleInvoice = async (req, res) => {
   const { id: invoiceId } = req.params;
@@ -89,6 +103,11 @@ const getSingleInvoice = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ singleInvoice });
 };
+/*=====  End of Get Single Invoice  ======*/
+
+/*=============================================
+=                Update Invoice               =
+=============================================*/
 
 const updateInvoice = async (req, res) => {
   const { id: invoiceId } = req.params;
@@ -153,5 +172,36 @@ const updateInvoice = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ updatedInvoice });
 };
+/*=====  End of Update Invoice  ======*/
 
-export { createInvoice, getAllInvoices, getSingleInvoice, updateInvoice };
+/*=============================================
+=           Change Invoice Status             =
+=============================================*/
+const changeInvoiceStatus = async (req, res) => {
+  const { id: invoiceId } = req.params;
+
+  const invoice = await Invoice.findOne({ _id: invoiceId });
+
+  // check permission
+  checkPermissions(req.user, invoice.createdBy);
+
+  const updatedInvoice = await Invoice.findOneAndUpdate(
+    { _id: invoiceId },
+    { $set: req.body },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(StatusCodes.OK).json({ updatedInvoice });
+};
+/*=====  End of Change Invoice Status   ======*/
+
+export {
+  createInvoice,
+  getAllInvoices,
+  getSingleInvoice,
+  updateInvoice,
+  changeInvoiceStatus,
+};

@@ -23,6 +23,9 @@ import {
   EDIT_INVOICE_BEGIN,
   EDIT_INVOICE_ERROR,
   EDIT_INVOICE_SUCCESS,
+  CHANGE_INVOICE_STATUS_BEGIN,
+  CHANGE_INVOICE_STATUS_ERROR,
+  CHANGE_INVOICE_STATUS_SUCCESS,
 } from './action';
 
 import { initialState } from './appContext';
@@ -302,6 +305,35 @@ const reducer = (state, action) => {
   }
 
   if (action.type === EDIT_INVOICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg,
+      invoiceAlert: true,
+    };
+  }
+
+  if (action.type === CHANGE_INVOICE_STATUS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === CHANGE_INVOICE_STATUS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'success',
+      alertText: 'Invoice Status Changed!',
+      invoiceAlert: false,
+    };
+  }
+
+  if (action.type === CHANGE_INVOICE_STATUS_ERROR) {
     return {
       ...state,
       isLoading: false,
