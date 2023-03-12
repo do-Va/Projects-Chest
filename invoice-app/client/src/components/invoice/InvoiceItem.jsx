@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+
 import Wrapper from './styles/invoiceItem';
-import { InvoiceStatus } from '.';
+import { InvoiceStatus, Text } from '../common';
 import { fixedDate, formatter } from '../helpers/invoice.functions';
 import img from '../../assets/icon-arrow-right.svg';
 
@@ -10,17 +12,20 @@ const Invoice = ({
   status,
   date,
   items,
+  _id,
 }) => {
+  const navigate = useNavigate();
+
   if (graterThanTablet) {
     return (
-      <Wrapper>
-        <p className="text">
+      <Wrapper onClick={() => navigate(`/${_id}`)} className="radius-box">
+        <Text>
           <span>#</span>
           {name}
-        </p>
-        <p className="text2">Due {fixedDate(date)}</p>
-        <p className="text2">{clientName}</p>
-        <p className="text">£ {formatter(items)}</p>
+        </Text>
+        <Text className="small">Due {fixedDate(date)}</Text>
+        <Text className="small">{clientName}</Text>
+        <Text>£ {formatter(items)}</Text>
         <InvoiceStatus status={status} margin="0 20px 0 0" />
         <img src={img} alt="" />
       </Wrapper>
@@ -28,19 +33,19 @@ const Invoice = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper onClick={() => navigate(`/${_id}`)} className="radius-box">
       <div className="header">
-        <p className="text">
+        <Text>
           <span>#</span>
           {name}
-        </p>
-        <p className="text2">{clientName}</p>
+        </Text>
+        <Text className="small">{clientName}</Text>
       </div>
 
       <div className="footer">
         <div className="sub-container">
-          <p className="text2">Due {fixedDate(date)}</p>
-          <p className="text">£ {formatter(items)}</p>
+          <Text className="small">Due {fixedDate(date)}</Text>
+          <Text>£ {formatter(items)}</Text>
         </div>
 
         <InvoiceStatus status={status} />

@@ -6,7 +6,7 @@ import { SharedLayout, Invoice, InvoiceDetail } from './pages/dashboard';
 import { AddInvoice, AlertBox } from './components';
 
 function App() {
-  const { showAlert, showForm } = useAppContext();
+  const { showAlert, showForm, showError } = useAppContext();
 
   return (
     <BrowserRouter>
@@ -23,7 +23,10 @@ function App() {
           }
         >
           <Route index element={<Invoice />} />
-          <Route path=":id" element={<InvoiceDetail />} />
+          <Route
+            path=":id"
+            element={showError ? <ErrorPage /> : <InvoiceDetail />}
+          />
         </Route>
         <Route path="/sign" element={<SignPage />} />
         <Route path="*" element={<ErrorPage />} />

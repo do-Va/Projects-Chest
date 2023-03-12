@@ -18,7 +18,7 @@ const GlobalStyles = createGlobalStyle`
 
   --fw-medium: 500;
   --fw-bold: 700;
- 
+
   --font-family: 'League Spartan', sans-serif;
   /* *** END OF FONTS *** */
 
@@ -56,7 +56,7 @@ const GlobalStyles = createGlobalStyle`
   --transition-all: all 0.2s linear;
   --transition-all-cb: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   /* *** END OF COLORS *** */
- 
+
   /* Border Radius */
   --br-xs: 4px;
   --br-sm: 6px;
@@ -144,6 +144,12 @@ h1, h2, h3, h4, h5 {
 .grid-center {
   display: grid;
   place-content: center;
+}
+
+.radius-box {
+  background-color: var(--gray-3);
+  border-radius: var(--br-md);
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
 }
 `;
 

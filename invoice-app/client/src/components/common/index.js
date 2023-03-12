@@ -4,5 +4,18 @@ import Button from './Button';
 import Checkbox from './Checkbox';
 import Select from './Select';
 import DatePicker from './DatePicker';
+import GoBackBtn from './GoBackBtn';
+import InvoiceStatus from './InvoiceStatus';
+import Text from './Text';
 
-export { InputGroup, TextInput, Button, Checkbox, Select, DatePicker };
+export {
+  InputGroup,
+  TextInput,
+  Button,
+  Checkbox,
+  Select,
+  DatePicker,
+  GoBackBtn,
+  InvoiceStatus,
+  Text,
+};

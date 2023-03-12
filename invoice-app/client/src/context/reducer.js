@@ -16,6 +16,9 @@ import {
   DELETE_INVOICE_ITEM,
   GET_INVOICES_BEGIN,
   GET_INVOICES_SUCCESS,
+  GET_SINGLE_INVOICE_BEGIN,
+  GET_SINGLE_INVOICE_ERROR,
+  GET_SINGLE_INVOICE_SUCCESS,
 } from './action';
 
 import { initialState } from './appContext';
@@ -159,6 +162,27 @@ const reducer = (state, action) => {
       isLoading: false,
       invoices: action.payload.invoices,
       totalInvoices: action.payload.totalInvoices,
+    };
+  }
+
+  if (action.type === GET_SINGLE_INVOICE_BEGIN) {
+    return { ...state, isLoading: true };
+  }
+
+  if (action.type === GET_SINGLE_INVOICE_SUCCESS) {
+    return {
+      ...state,
+      singleInvoice: action.payload,
+      isLoading: false,
+      showError: false,
+    };
+  }
+
+  if (action.type === GET_SINGLE_INVOICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showError: true,
     };
   }
   //#endregion

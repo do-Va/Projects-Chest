@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   justify-content: center;
   gap: 8px;
   margin: ${props => props.margin};
+  user-select: none;
 
   .circle {
     width: 8px;

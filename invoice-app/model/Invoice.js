@@ -32,6 +32,10 @@ const InvoiceSchema = new mongoose.Schema(
       enum: [1, 7, 14, 30],
       required: [true, 'Please provide payment terms'],
     },
+    description: {
+      type: String,
+      required: [true, 'Please provide description'],
+    },
     status: {
       type: String,
       enum: ['paid', 'pending', 'draft'],

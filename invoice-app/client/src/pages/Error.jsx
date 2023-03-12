@@ -5,7 +5,7 @@ import img from '../assets/404.svg';
 
 const ErrorPage = () => {
   return (
-    <Wrapper>
+    <Wrapper className="max-container">
       <div className="img-container">
         <img src={img} alt="" />
       </div>

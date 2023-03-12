@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
 
 import Invoice from '../model/Invoice.js';
 import { BadRequestError } from '../errors/index.js';
@@ -12,6 +13,7 @@ const createInvoice = async (req, res) => {
     country,
     date,
     paymentTerms,
+    description,
     status,
     items,
     clientName,
@@ -30,6 +32,7 @@ const createInvoice = async (req, res) => {
     !country ||
     !date ||
     !paymentTerms ||
+    !description ||
     !status ||
     !items ||
     !clientName ||
@@ -52,6 +55,7 @@ const createInvoice = async (req, res) => {
     country,
     date,
     paymentTerms,
+    description,
     items,
     status,
     clientName,
@@ -72,4 +76,18 @@ const getAllInvoices = async (req, res) => {
   res.status(StatusCodes.OK).json({ invoices, totalInvoices: invoices.length });
 };
 
-export { createInvoice, getAllInvoices };
+const getSingleInvoice = async (req, res) => {
+  const { id: invoiceId } = req.params;
+
+  const singleInvoice = await Invoice.findOne({
+    _id: invoiceId,
+  });
+
+  if (!singleInvoice) {
+    throw new NotFoundError(`No invoice with id : ${invoiceId}`);
+  }
+
+  res.status(StatusCodes.OK).json({ singleInvoice });
+};
+
+export { createInvoice, getAllInvoices, getSingleInvoice };

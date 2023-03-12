@@ -20,6 +20,9 @@ import {
   DELETE_INVOICE_ITEM,
   GET_INVOICES_BEGIN,
   GET_INVOICES_SUCCESS,
+  GET_SINGLE_INVOICE_BEGIN,
+  GET_SINGLE_INVOICE_ERROR,
+  GET_SINGLE_INVOICE_SUCCESS,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -58,6 +61,8 @@ const invoiceState = {
   items: [],
   invoices: [],
   totalInvoices: 0,
+  invoiceAlert: false,
+  singleInvoice: {},
 };
 
 const initialState = {
@@ -70,7 +75,7 @@ const initialState = {
   showForm: false,
   alertText: '',
   alertType: '',
-  invoiceAlert: false,
+  showError: false,
 };
 
 const AppContext = React.createContext();
@@ -207,6 +212,7 @@ const AppProvider = ({ children }) => {
         country,
         date,
         paymentTerms,
+        description,
         items,
       } = state;
 
@@ -224,6 +230,7 @@ const AppProvider = ({ children }) => {
         country,
         date,
         paymentTerms,
+        description,
         status,
         items,
       });
@@ -267,6 +274,25 @@ const AppProvider = ({ children }) => {
   };
   //#endregion
 
+  const getSingleInvoice = async id => {
+    dispatch({ type: GET_SINGLE_INVOICE_BEGIN });
+
+    try {
+      const { data } = await authFetch(`/invoices/${id}`);
+
+      const { singleInvoice } = data;
+
+      dispatch({
+        type: GET_SINGLE_INVOICE_SUCCESS,
+        payload: singleInvoice,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_SINGLE_INVOICE_ERROR,
+      });
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -282,6 +308,7 @@ const AppProvider = ({ children }) => {
         changeInvoiceItemValue,
         deleteInvoiceItem,
         getAllInvoices,
+        getSingleInvoice,
       }}
     >
       {children}

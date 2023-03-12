@@ -10,7 +10,7 @@ const InvoiceContainer = ({ graterThanTablet }) => {
     getAllInvoices();
   }, []);
 
-  if (invoices.length === 3) {
+  if (invoices.length === 0) {
     return (
       <Wrapper>
         <EmptyInvoice graterThanTablet={graterThanTablet} />

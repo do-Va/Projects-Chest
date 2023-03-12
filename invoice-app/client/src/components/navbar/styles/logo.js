@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   position: relative;
   overflow: hidden;
   padding: 25px;
+  cursor: pointer;
 
   img {
     position: relative;

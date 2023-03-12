@@ -2,9 +2,6 @@ import styled from 'styled-components/macro';
 import mediaQuery from '../../../styles/mediaQuery';
 
 const Wrapper = styled.article`
-  background-color: var(--gray-3);
-  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
-  border-radius: var(--br-md);
   padding: 25px 24px 22px;
   cursor: pointer;
 
