@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
-import mongoose from 'mongoose';
 
 import Invoice from '../model/Invoice.js';
-import { BadRequestError } from '../errors/index.js';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
+import checkPermissions from '../utils/checkPermissions.js';
 
 const createInvoice = async (req, res) => {
   const {
@@ -90,4 +90,68 @@ const getSingleInvoice = async (req, res) => {
   res.status(StatusCodes.OK).json({ singleInvoice });
 };
 
-export { createInvoice, getAllInvoices, getSingleInvoice };
+const updateInvoice = async (req, res) => {
+  const { id: invoiceId } = req.params;
+
+  const {
+    name,
+    address,
+    city,
+    postCode,
+    country,
+    date,
+    paymentTerms,
+    description,
+    status,
+    items,
+    clientName,
+    clientEmail,
+    clientAddress,
+    clientCity,
+    clientPostCode,
+    clientCountry,
+  } = req.body;
+
+  if (
+    !name ||
+    !address ||
+    !city ||
+    !postCode ||
+    !country ||
+    !date ||
+    !paymentTerms ||
+    !description ||
+    !status ||
+    !items ||
+    !clientName ||
+    !clientEmail ||
+    !clientAddress ||
+    !clientCity ||
+    !clientPostCode ||
+    !clientCountry
+  ) {
+    throw new BadRequestError('Please provide all values');
+  }
+
+  const invoice = await Invoice.findOne({ _id: invoiceId });
+
+  if (!invoice) {
+    throw new NotFoundError(`No invoice with id : ${invoiceId}`);
+  }
+
+  // check permission
+  checkPermissions(req.user, invoice.createdBy);
+
+  const updatedInvoice = await Invoice.findOneAndUpdate(
+    { _id: invoiceId },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(StatusCodes.OK).json({ updatedInvoice });
+};
+
+export { createInvoice, getAllInvoices, getSingleInvoice, updateInvoice };

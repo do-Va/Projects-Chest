@@ -12,7 +12,7 @@ import { useAppContext } from '../../context/appContext';
 import Wrapper from './styles/invoiceDetail';
 
 const InvoiceDetail = () => {
-  const { getSingleInvoice, singleInvoice } = useAppContext();
+  const { getSingleInvoice, singleInvoice, isLoading } = useAppContext();
   const params = useParams();
 
   const [graterThanTablet, setGraterThanTablet] = useState(false);
@@ -23,7 +23,7 @@ const InvoiceDetail = () => {
 
   useEffect(() => {
     getSingleInvoice(params.id);
-  }, [params.id]);
+  }, [params.id, isLoading]);
 
   return (
     <Wrapper>

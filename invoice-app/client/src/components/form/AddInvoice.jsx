@@ -6,11 +6,12 @@ import { useAppContext } from '../../context/appContext';
 import randomName from '../helpers/form.functions';
 
 const AddInvoice = () => {
-  const { handleChange } = useAppContext();
+  const { handleChange, isEditing } = useAppContext();
 
   useEffect(() => {
-    handleChange({ name: 'name', value: randomName() });
-  }, []);
+    !isEditing && handleChange({ name: 'name', value: randomName() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditing]);
 
   return (
     <Wrapper>

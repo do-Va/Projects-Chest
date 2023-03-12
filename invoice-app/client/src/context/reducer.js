@@ -19,6 +19,10 @@ import {
   GET_SINGLE_INVOICE_BEGIN,
   GET_SINGLE_INVOICE_ERROR,
   GET_SINGLE_INVOICE_SUCCESS,
+  SET_EDIT_JOB,
+  EDIT_INVOICE_BEGIN,
+  EDIT_INVOICE_ERROR,
+  EDIT_INVOICE_SUCCESS,
 } from './action';
 
 import { initialState } from './appContext';
@@ -185,6 +189,51 @@ const reducer = (state, action) => {
       showError: true,
     };
   }
+
+  if (action.type === SET_EDIT_JOB) {
+    const {
+      _id,
+      name,
+      address,
+      city,
+      postCode,
+      country,
+      date,
+      paymentTerms,
+      description,
+      status,
+      items,
+      clientName,
+      clientEmail,
+      clientAddress,
+      clientCity,
+      clientPostCode,
+      clientCountry,
+    } = state.singleInvoice;
+
+    return {
+      ...state,
+      isEditing: true,
+      showForm: true,
+      editInvoiceId: _id,
+      name,
+      address,
+      city,
+      postCode,
+      country,
+      date,
+      paymentTerms,
+      description,
+      status,
+      items,
+      clientName,
+      clientEmail,
+      clientAddress,
+      clientCity,
+      clientPostCode,
+      clientCountry,
+    };
+  }
   //#endregion
 
   //#region Invoice item
@@ -229,6 +278,37 @@ const reducer = (state, action) => {
     return {
       ...state,
       items: tempObj,
+    };
+  }
+
+  if (action.type === EDIT_INVOICE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === EDIT_INVOICE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      showForm: false,
+      isEditing: false,
+      alertType: 'success',
+      alertText: 'Invoice Updated!',
+      invoiceAlert: false,
+    };
+  }
+
+  if (action.type === EDIT_INVOICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg,
+      invoiceAlert: true,
     };
   }
   //#endregion

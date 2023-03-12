@@ -24,6 +24,11 @@ const Wrapper = styled.div`
 
     .img-container {
       cursor: pointer;
+
+      &:hover img {
+        filter: invert(55%) sepia(90%) saturate(2740%) hue-rotate(326deg)
+          brightness(97%) contrast(90%);
+      }
     }
   }
 

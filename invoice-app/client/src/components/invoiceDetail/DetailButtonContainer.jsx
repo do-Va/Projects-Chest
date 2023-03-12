@@ -1,7 +1,14 @@
+import { useAppContext } from '../../context/appContext';
 import { Button } from '../common';
 import Wrapper from './styles/detailButtonContainer';
 
 const DetailButtonContainer = ({ margin }) => {
+  const { setEditJob } = useAppContext();
+
+  const handleEdit = () => {
+    setEditJob();
+  };
+
   return (
     <Wrapper margin={margin}>
       <Button
@@ -13,6 +20,7 @@ const DetailButtonContainer = ({ margin }) => {
         swith="65px"
         width="73px"
         tWidth="73px"
+        onClick={handleEdit}
       >
         Edit
       </Button>

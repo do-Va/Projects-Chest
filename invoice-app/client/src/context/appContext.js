@@ -23,6 +23,10 @@ import {
   GET_SINGLE_INVOICE_BEGIN,
   GET_SINGLE_INVOICE_ERROR,
   GET_SINGLE_INVOICE_SUCCESS,
+  SET_EDIT_JOB,
+  EDIT_INVOICE_BEGIN,
+  EDIT_INVOICE_ERROR,
+  EDIT_INVOICE_SUCCESS,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -76,6 +80,8 @@ const initialState = {
   alertText: '',
   alertType: '',
   showError: false,
+  isEditing: false,
+  editInvoiceId: '',
 };
 
 const AppContext = React.createContext();
@@ -272,7 +278,6 @@ const AppProvider = ({ children }) => {
       console.log(error.response);
     }
   };
-  //#endregion
 
   const getSingleInvoice = async id => {
     dispatch({ type: GET_SINGLE_INVOICE_BEGIN });
@@ -293,6 +298,68 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const setEditJob = () => {
+    dispatch({ type: SET_EDIT_JOB });
+  };
+
+  const editInvoice = async () => {
+    dispatch({ type: EDIT_INVOICE_BEGIN });
+
+    try {
+      const {
+        editInvoiceId,
+        name,
+        address,
+        city,
+        postCode,
+        country,
+        date,
+        paymentTerms,
+        description,
+        status,
+        items,
+        clientName,
+        clientEmail,
+        clientAddress,
+        clientCity,
+        clientPostCode,
+        clientCountry,
+      } = state;
+
+      await authFetch.patch(`/invoices/${editInvoiceId}`, {
+        name,
+        address,
+        city,
+        postCode,
+        country,
+        date,
+        paymentTerms,
+        description,
+        status,
+        items,
+        clientName,
+        clientEmail,
+        clientAddress,
+        clientCity,
+        clientPostCode,
+        clientCountry,
+      });
+
+      dispatch({ type: EDIT_INVOICE_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: EDIT_INVOICE_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+
+    clearAlert();
+  };
+  //#endregion
+
   return (
     <AppContext.Provider
       value={{
@@ -309,6 +376,8 @@ const AppProvider = ({ children }) => {
         deleteInvoiceItem,
         getAllInvoices,
         getSingleInvoice,
+        setEditJob,
+        editInvoice,
       }}
     >
       {children}
