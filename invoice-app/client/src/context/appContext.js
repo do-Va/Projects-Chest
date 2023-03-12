@@ -30,6 +30,9 @@ import {
   CHANGE_INVOICE_STATUS_BEGIN,
   CHANGE_INVOICE_STATUS_ERROR,
   CHANGE_INVOICE_STATUS_SUCCESS,
+  DELETE_INVOICE_BEGIN,
+  DELETE_INVOICE_ERROR,
+  DELETE_INVOICE_SUCCESS,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -75,7 +78,7 @@ const invoiceState = {
 const initialState = {
   ...clientState,
   ...invoiceState,
-  isLoading: false,
+  isLoading: true,
   user: user ? JSON.parse(user) : null,
   token,
   showAlert: false,
@@ -92,7 +95,9 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  //#region Axios Setup
+  /*=============================================
+  =                    AXIOS                    =
+  =============================================*/
   const authFetch = axios.create({
     baseURL: '/api/v1',
   });
@@ -124,9 +129,12 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error);
     }
   );
-  //#endregion
+  /*=====  End of AXIOS  ======*/
 
-  //#region Functions
+  /*=============================================
+  =              GLOBAL FUNCTIONS               =
+  =============================================*/
+
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
 
@@ -150,10 +158,13 @@ const AppProvider = ({ children }) => {
   const displayForm = value => {
     dispatch({ type: DISPLAY_FORM, payload: value });
   };
-  //#endregion
+  /*=====  End of GLOBAL FUNCTIONS  ======*/
 
-  //#region User
-  // Register and Login
+  /*=============================================
+  =                USER ACTIONS                 =
+  =============================================*/
+
+  //---- Register and Login
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
     dispatch({ type: SETUP_USER_BEGIN });
 
@@ -181,14 +192,17 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  // logout User
+  //---- logout User
   const logoutUser = () => {
     dispatch({ type: LOGOUT_USER });
     removeUserFromLocalStorage();
   };
-  //#endregion
+  /*=====  End of USER ACTIONS  ======*/
 
-  //#region Invoice Items
+  /*=============================================
+  =            INVOICE ITEM ACTIONS             =
+  =============================================*/
+
   const addInvoiceItem = () => {
     dispatch({ type: ADD_INVOICE_ITEM });
   };
@@ -200,9 +214,56 @@ const AppProvider = ({ children }) => {
   const deleteInvoiceItem = check => {
     dispatch({ type: DELETE_INVOICE_ITEM, payload: check });
   };
-  //#endregion
+  /*=====  End of INVOICE ITEM ACTIONS  ======*/
 
-  //#region Invoice
+  /*=============================================
+  =               INVOICE ACTIONS               =
+  =============================================*/
+
+  //---- Get All Invoice
+  const getAllInvoices = async () => {
+    let url = `/invoices`;
+
+    dispatch({ type: GET_INVOICES_BEGIN });
+
+    try {
+      const { data } = await authFetch(url);
+
+      const { invoices, totalInvoices } = data;
+
+      dispatch({
+        type: GET_INVOICES_SUCCESS,
+        payload: {
+          invoices,
+          totalInvoices,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //---- Get Single Invoice
+  const getSingleInvoice = async id => {
+    dispatch({ type: GET_SINGLE_INVOICE_BEGIN });
+
+    try {
+      const { data } = await authFetch(`/invoices/${id}`);
+
+      const { singleInvoice } = data;
+
+      dispatch({
+        type: GET_SINGLE_INVOICE_SUCCESS,
+        payload: singleInvoice,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_SINGLE_INVOICE_ERROR,
+      });
+    }
+  };
+
+  //---- Create Invoice
   const createInvoice = async status => {
     dispatch({ type: CREATE_INVOICE_BEGIN });
 
@@ -260,47 +321,7 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const getAllInvoices = async () => {
-    let url = `/invoices`;
-
-    dispatch({ type: GET_INVOICES_BEGIN });
-
-    try {
-      const { data } = await authFetch(url);
-
-      const { invoices, totalInvoices } = data;
-
-      dispatch({
-        type: GET_INVOICES_SUCCESS,
-        payload: {
-          invoices,
-          totalInvoices,
-        },
-      });
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  const getSingleInvoice = async id => {
-    dispatch({ type: GET_SINGLE_INVOICE_BEGIN });
-
-    try {
-      const { data } = await authFetch(`/invoices/${id}`);
-
-      const { singleInvoice } = data;
-
-      dispatch({
-        type: GET_SINGLE_INVOICE_SUCCESS,
-        payload: singleInvoice,
-      });
-    } catch (error) {
-      dispatch({
-        type: GET_SINGLE_INVOICE_ERROR,
-      });
-    }
-  };
-
+  //---- Edit Invoice
   const setEditJob = () => {
     dispatch({ type: SET_EDIT_JOB });
   };
@@ -349,6 +370,7 @@ const AppProvider = ({ children }) => {
       });
 
       dispatch({ type: EDIT_INVOICE_SUCCESS });
+      getSingleInvoice(editInvoiceId);
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
@@ -362,6 +384,7 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  //---- Change Invoice Status
   const changeInvoiceStatus = async status => {
     dispatch({ type: CHANGE_INVOICE_STATUS_BEGIN });
 
@@ -373,7 +396,7 @@ const AppProvider = ({ children }) => {
       });
 
       dispatch({ type: CHANGE_INVOICE_STATUS_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
+      getSingleInvoice(_id);
     } catch (error) {
       if (error.response.status === 401) return;
 
@@ -385,7 +408,30 @@ const AppProvider = ({ children }) => {
 
     clearAlert();
   };
-  //#endregion
+
+  //---- Delete Invoice
+  const deleteInvoice = async () => {
+    dispatch({ type: DELETE_INVOICE_BEGIN });
+
+    const { _id } = state.singleInvoice;
+
+    try {
+      const { data } = await authFetch.delete(`/invoices/${_id}`);
+
+      dispatch({ type: DELETE_INVOICE_SUCCESS, payload: { msg: data.msg } });
+      getAllInvoices();
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: DELETE_INVOICE_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+
+    clearAlert();
+  };
+  /*=====  End of INVOICE ACTIONS  ======*/
 
   return (
     <AppContext.Provider
@@ -406,6 +452,7 @@ const AppProvider = ({ children }) => {
         setEditJob,
         editInvoice,
         changeInvoiceStatus,
+        deleteInvoice,
       }}
     >
       {children}

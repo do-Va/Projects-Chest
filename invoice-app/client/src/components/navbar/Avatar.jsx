@@ -1,13 +1,28 @@
+import { useState } from 'react';
+
 import Wrapper from './styles/avatar';
-import avatar from '../../assets/image-avatar.jpg';
 import { useAppContext } from '../../context/appContext';
 
 const Avatar = () => {
-  const { user } = useAppContext();
+  const [showBtn, setShowBtn] = useState(false);
+  const { user, logoutUser } = useAppContext();
+
+  const handleClick = () => {
+    logoutUser();
+    setShowBtn(false);
+  };
 
   return (
     <Wrapper>
-      <div className="circle">{user?.name[0]}</div>
+      <div className="circle" onClick={() => setShowBtn(!showBtn)}>
+        {user?.name[0]}
+      </div>
+
+      {showBtn && (
+        <div className="logout-btn grid-center" onClick={handleClick}>
+          Logout
+        </div>
+      )}
     </Wrapper>
   );
 };

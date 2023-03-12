@@ -7,6 +7,7 @@ import DatePicker from './DatePicker';
 import GoBackBtn from './GoBackBtn';
 import InvoiceStatus from './InvoiceStatus';
 import Text from './Text';
+import Loader from './Loader';
 
 export {
   InputGroup,
@@ -18,4 +19,5 @@ export {
   GoBackBtn,
   InvoiceStatus,
   Text,
+  Loader,
 };

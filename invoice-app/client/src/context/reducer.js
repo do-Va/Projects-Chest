@@ -26,6 +26,9 @@ import {
   CHANGE_INVOICE_STATUS_BEGIN,
   CHANGE_INVOICE_STATUS_ERROR,
   CHANGE_INVOICE_STATUS_SUCCESS,
+  DELETE_INVOICE_BEGIN,
+  DELETE_INVOICE_ERROR,
+  DELETE_INVOICE_SUCCESS,
 } from './action';
 
 import { initialState } from './appContext';
@@ -329,7 +332,6 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'success',
       alertText: 'Invoice Status Changed!',
-      invoiceAlert: false,
     };
   }
 
@@ -340,7 +342,33 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg,
-      invoiceAlert: true,
+    };
+  }
+
+  if (action.type === DELETE_INVOICE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+
+  if (action.type === DELETE_INVOICE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'success',
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === DELETE_INVOICE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg,
     };
   }
   //#endregion

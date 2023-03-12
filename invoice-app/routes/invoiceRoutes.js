@@ -6,6 +6,7 @@ import {
   getSingleInvoice,
   updateInvoice,
   changeInvoiceStatus,
+  deleteInvoice,
 } from '../controllers/invoiceController.js';
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router
   .route('/:id')
   .get(getSingleInvoice)
   .patch(updateInvoice)
-  .put(changeInvoiceStatus);
+  .put(changeInvoiceStatus)
+  .delete(deleteInvoice);
 
 export default router;

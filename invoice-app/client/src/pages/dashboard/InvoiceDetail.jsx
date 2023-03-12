@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { GoBackBtn } from '../../components/common';
+import { GoBackBtn, Loader } from '../../components/common';
 import { checkResize } from '../../components/helpers/invoice.functions';
 import {
   DetailHeader,
@@ -23,21 +23,27 @@ const InvoiceDetail = () => {
 
   useEffect(() => {
     getSingleInvoice(params.id);
-  }, [params.id, isLoading]);
+  }, [params.id]);
 
   return (
     <Wrapper>
-      <div className="max-container">
-        <GoBackBtn />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="max-container">
+            <GoBackBtn />
 
-        <DetailHeader
-          status={singleInvoice?.status}
-          graterThanTablet={graterThanTablet}
-        />
-        <DetailContent singleInvoice={singleInvoice} />
-      </div>
+            <DetailHeader
+              status={singleInvoice?.status}
+              graterThanTablet={graterThanTablet}
+            />
+            <DetailContent singleInvoice={singleInvoice} />
+          </div>
 
-      {!graterThanTablet && <DetailFooter />}
+          {!graterThanTablet && <DetailFooter />}
+        </>
+      )}
     </Wrapper>
   );
 };

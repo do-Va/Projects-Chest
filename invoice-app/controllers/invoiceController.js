@@ -177,6 +177,7 @@ const updateInvoice = async (req, res) => {
 /*=============================================
 =           Change Invoice Status             =
 =============================================*/
+
 const changeInvoiceStatus = async (req, res) => {
   const { id: invoiceId } = req.params;
 
@@ -198,10 +199,33 @@ const changeInvoiceStatus = async (req, res) => {
 };
 /*=====  End of Change Invoice Status   ======*/
 
+/*=============================================
+=               Delete Invoice                =
+=============================================*/
+
+const deleteInvoice = async (req, res) => {
+  const { id: invoiceId } = req.params;
+
+  const invoice = await Invoice.findOne({ _id: invoiceId });
+
+  if (!invoice) {
+    throw new NotFoundError(`No invoice with id : ${invoiceId}`);
+  }
+
+  // check permission
+  checkPermissions(req.user, invoice.createdBy);
+
+  await invoice.remove();
+
+  res.status(StatusCodes.OK).json({ msg: 'Success! Invoice removed' });
+};
+/*=====  End of Delete Invoice  ======*/
+
 export {
   createInvoice,
   getAllInvoices,
   getSingleInvoice,
   updateInvoice,
   changeInvoiceStatus,
+  deleteInvoice,
 };

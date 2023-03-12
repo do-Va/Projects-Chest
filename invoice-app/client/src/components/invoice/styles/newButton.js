@@ -15,6 +15,7 @@ const Wrapper = styled.button`
   font-size: var(--f-md);
   padding-left: 6px;
   flex-shrink: 0;
+  transition: var(--transition-all);
 
   .icon-container {
     width: 32px;

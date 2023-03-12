@@ -8,6 +8,28 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  cursor: pointer;
+
+  .logout-btn {
+    position: absolute;
+    width: 100px;
+    right: 5px;
+    bottom: -48px;
+    height: 42px;
+    cursor: pointer;
+    color: var(--white);
+    border-radius: var(--br-sm);
+    background-color: var(--gray-2);
+    box-shadow: var(--bs-full);
+    border: var(--border);
+    transition: var(--transition-all);
+
+    &:hover {
+      background-color: var(--gray-1);
+      border-color: var(--purple);
+    }
+  }
 
   .circle {
     width: 32px;
@@ -29,6 +51,11 @@ const Wrapper = styled.div`
 
     border-left: none;
     border-top: 2px solid var(--gray-1);
+
+    .logout-btn {
+      bottom: 25%;
+      left: 104%;
+    }
 
     .circle {
       width: 40px;

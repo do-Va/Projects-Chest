@@ -3,12 +3,9 @@ import styled from 'styled-components/macro';
 const Wrapper = styled.div`
   padding: 24px;
   background-color: var(--gray-2);
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 `;
 
 export default Wrapper;

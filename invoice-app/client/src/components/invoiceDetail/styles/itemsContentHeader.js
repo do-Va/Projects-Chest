@@ -6,7 +6,6 @@ const Wrapper = styled.div`
 
   @media ${mediaQuery.tablet} {
     display: flex;
-    margin-bottom: 32px;
 
     & :first-child {
       flex: 1;

@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex: 1;
 
   img {
-    width: 250px;
+    width: 252px;
     margin-bottom: 42px;
   }
 
