@@ -103,7 +103,7 @@ const AppProvider = ({ children }) => {
   =                    AXIOS                    =
   =============================================*/
   const authFetch = axios.create({
-    baseURL: '/api/v1',
+    baseURL: 'https://invoice-app-api.vercel.app/api/v1',
   });
 
   // request
