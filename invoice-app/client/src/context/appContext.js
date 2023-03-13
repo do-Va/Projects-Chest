@@ -187,7 +187,7 @@ const AppProvider = ({ children }) => {
 
     try {
       const { data } = await axios.post(
-        `/api/v1/auth/${endPoint}`,
+        `https://invoice-app-api.vercel.app/api/v1/auth/${endPoint}`,
         currentUser
       );
 
