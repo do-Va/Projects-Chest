@@ -7,12 +7,14 @@ import {
   DetailHeader,
   DetailContent,
   DetailFooter,
+  DeleteModal,
 } from '../../components/invoiceDetail';
 import { useAppContext } from '../../context/appContext';
 import Wrapper from './styles/invoiceDetail';
 
 const InvoiceDetail = () => {
-  const { getSingleInvoice, singleInvoice, isLoading } = useAppContext();
+  const { getSingleInvoice, singleInvoice, isLoading, isDeleting } =
+    useAppContext();
   const params = useParams();
 
   const [graterThanTablet, setGraterThanTablet] = useState(false);
@@ -40,8 +42,8 @@ const InvoiceDetail = () => {
             />
             <DetailContent singleInvoice={singleInvoice} />
           </div>
-
           {!graterThanTablet && <DetailFooter />}
+          {isDeleting && <DeleteModal />}
         </>
       )}
     </Wrapper>

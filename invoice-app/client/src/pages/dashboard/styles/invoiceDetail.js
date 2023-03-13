@@ -5,7 +5,6 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   padding-top: 32px;
-
   flex: 1;
 
   @media ${mediaQuery.tablet} {

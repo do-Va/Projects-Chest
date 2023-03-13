@@ -30,6 +30,7 @@ import {
   CHANGE_INVOICE_STATUS_BEGIN,
   CHANGE_INVOICE_STATUS_ERROR,
   CHANGE_INVOICE_STATUS_SUCCESS,
+  SET_DELETE_INVOICE,
   DELETE_INVOICE_BEGIN,
   DELETE_INVOICE_ERROR,
   DELETE_INVOICE_SUCCESS,
@@ -88,6 +89,7 @@ const initialState = {
   alertType: '',
   showError: false,
   isEditing: false,
+  isDeleting: false,
   editInvoiceId: '',
   query: [],
 };
@@ -429,6 +431,10 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Delete Invoice
+  const setDeleteInvoice = value => {
+    dispatch({ type: SET_DELETE_INVOICE, payload: value });
+  };
+
   const deleteInvoice = async () => {
     dispatch({ type: DELETE_INVOICE_BEGIN });
 
@@ -472,6 +478,7 @@ const AppProvider = ({ children }) => {
         setEditInvoice,
         editInvoice,
         changeInvoiceStatus,
+        setDeleteInvoice,
         deleteInvoice,
       }}
     >

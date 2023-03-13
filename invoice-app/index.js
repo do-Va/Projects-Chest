@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 // database
 import connectDB from './database/connect.js';
@@ -30,10 +31,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, './client/build')));
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Welcome');
-});
 
 const base = '/api/v1';
 

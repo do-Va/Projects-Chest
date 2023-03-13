@@ -30,6 +30,7 @@ import {
   DELETE_INVOICE_ERROR,
   DELETE_INVOICE_SUCCESS,
   ADD_QUERY,
+  SET_DELETE_INVOICE,
 } from './action';
 
 import { initialState } from './appContext';
@@ -354,6 +355,13 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === SET_DELETE_INVOICE) {
+    return {
+      ...state,
+      isDeleting: action.payload,
+    };
+  }
+
   if (action.type === DELETE_INVOICE_BEGIN) {
     return {
       ...state,
@@ -365,6 +373,7 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
+      isDeleting: false,
       showAlert: true,
       alertType: 'success',
       alertText: action.payload.msg,

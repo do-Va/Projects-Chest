@@ -147,6 +147,12 @@ h1, h2, h3, h4, h5 {
   place-content: center;
 }
 
+.flex-center {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .radius-box {
   background-color: var(--gray-3);
   border-radius: var(--br-md);

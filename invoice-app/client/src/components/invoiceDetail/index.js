@@ -9,6 +9,7 @@ import DetailItemsTotal from './DetailItemsTotal';
 import ItemsContentHeader from './ItemsContentHeader';
 import ItemsContentMobile from './ItemsContentMobile';
 import ItemsContentTablet from './ItemsContentTablet';
+import DeleteModal from './DeleteModal';
 
 export {
   Content,
@@ -22,4 +23,5 @@ export {
   ItemsContentHeader,
   ItemsContentMobile,
   ItemsContentTablet,
+  DeleteModal,
 };

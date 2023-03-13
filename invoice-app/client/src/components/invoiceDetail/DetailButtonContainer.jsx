@@ -1,24 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useAppContext } from '../../context/appContext';
 import { Button } from '../common';
 import Wrapper from './styles/detailButtonContainer';
 
 const DetailButtonContainer = ({ margin }) => {
-  const { setEditInvoice, changeInvoiceStatus, deleteInvoice } =
+  const { setEditInvoice, changeInvoiceStatus, setDeleteInvoice } =
     useAppContext();
-  const navigate = useNavigate();
 
   const handleEdit = () => {
     setEditInvoice();
-  };
-
-  const handleDelete = () => {
-    deleteInvoice();
-
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
   };
 
   return (
@@ -45,7 +34,7 @@ const DetailButtonContainer = ({ margin }) => {
         swidth="70px"
         width="89px"
         tWidth="89px"
-        onClick={handleDelete}
+        onClick={() => setDeleteInvoice(true)}
       >
         Delete
       </Button>
