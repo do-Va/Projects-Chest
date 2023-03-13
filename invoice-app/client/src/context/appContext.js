@@ -80,6 +80,7 @@ const invoiceState = {
 const initialState = {
   ...clientState,
   ...invoiceState,
+  userLoading: false,
   isLoading: true,
   user: user ? JSON.parse(user) : null,
   token,

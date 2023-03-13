@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextInput, InputGroup, Button } from '../components/common';
+import { TextInput, InputGroup, Button, Loader } from '../components/common';
 import { useAppContext } from '../context/appContext';
 import Wrapper from './styles/sign';
 
@@ -17,7 +17,8 @@ const SignPage = () => {
   const [values, setValues] = useState(initialState);
 
   // global state
-  const { user, setupUser, displayAlert } = useAppContext();
+  const { user, userLoading, setupUser, clearValues, displayForm } =
+    useAppContext();
 
   const handleChange = evn => {
     setValues({ ...values, [evn.target.name]: evn.target.value });
@@ -27,12 +28,6 @@ const SignPage = () => {
     evn.preventDefault();
 
     const { name, email, password, isMember } = values;
-
-    if (!email || !password || (!isMember && !name)) {
-      displayAlert();
-
-      return;
-    }
 
     const currentUser = { name, email, password };
 
@@ -61,6 +56,8 @@ const SignPage = () => {
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
+    displayForm(false);
+    clearValues();
   };
 
   return (
@@ -108,7 +105,7 @@ const SignPage = () => {
         background="--purple"
         hoverBackground="--light-purple"
       >
-        Submit
+        {userLoading ? <Loader /> : 'Submit'}
       </Button>
 
       <p className="member">

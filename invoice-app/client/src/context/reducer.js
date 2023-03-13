@@ -106,7 +106,7 @@ const reducer = (state, action) => {
 
   //#region User
   if (action.type === SETUP_USER_BEGIN) {
-    return { ...state, isLoading: true };
+    return { ...state, userLoading: true };
   }
 
   if (action.type === SETUP_USER_SUCCESS) {
@@ -114,7 +114,7 @@ const reducer = (state, action) => {
 
     return {
       ...state,
-      isLoading: false,
+      userLoading: false,
       user,
       token,
       alertType: 'success',
@@ -127,7 +127,7 @@ const reducer = (state, action) => {
   if (action.type === SETUP_USER_ERROR) {
     return {
       ...state,
-      isLoading: false,
+      userLoading: false,
       alertType: 'danger',
       alertText: action.payload.msg,
       showAlert: true,
