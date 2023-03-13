@@ -2,6 +2,8 @@ import 'express-async-errors';
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 // database
 import connectDB from './database/connect.js';
@@ -22,6 +24,11 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// only when ready to deploy
+app.use(express.static(path.resolve(__dirname, './client/build')));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -32,6 +39,10 @@ const base = '/api/v1';
 
 app.use(`${base}/auth`, authRouter);
 app.use(`${base}/invoices`, authenticateUser, invoiceRouter);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
