@@ -17,7 +17,7 @@ const SignPage = () => {
   const [values, setValues] = useState(initialState);
 
   // global state
-  const { user, isLoading, setupUser, displayAlert } = useAppContext();
+  const { user, setupUser, displayAlert } = useAppContext();
 
   const handleChange = evn => {
     setValues({ ...values, [evn.target.name]: evn.target.value });
@@ -73,6 +73,7 @@ const SignPage = () => {
             name="name"
             id="name"
             type="text"
+            value={values.name}
             placeholder="Name"
             onChange={handleChange}
           />
@@ -84,6 +85,7 @@ const SignPage = () => {
           name="email"
           id="email"
           type="email"
+          value={values.email}
           placeholder="Email"
           onChange={handleChange}
         />
@@ -94,6 +96,7 @@ const SignPage = () => {
           name="password"
           id="password"
           type="password"
+          value={values.password}
           placeholder="Password"
           onChange={handleChange}
         />

@@ -120,6 +120,7 @@ const reducer = (state, action) => {
       alertType: 'success',
       alertText: alertText,
       showAlert: true,
+      invoiceAlert: false,
     };
   }
 
@@ -130,6 +131,7 @@ const reducer = (state, action) => {
       alertType: 'danger',
       alertText: action.payload.msg,
       showAlert: true,
+      invoiceAlert: true,
     };
   }
 
