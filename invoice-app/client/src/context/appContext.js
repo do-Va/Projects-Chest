@@ -23,7 +23,7 @@ import {
   GET_SINGLE_INVOICE_BEGIN,
   GET_SINGLE_INVOICE_ERROR,
   GET_SINGLE_INVOICE_SUCCESS,
-  SET_EDIT_JOB,
+  SET_EDIT_INVOICE,
   EDIT_INVOICE_BEGIN,
   EDIT_INVOICE_ERROR,
   EDIT_INVOICE_SUCCESS,
@@ -33,6 +33,7 @@ import {
   DELETE_INVOICE_BEGIN,
   DELETE_INVOICE_ERROR,
   DELETE_INVOICE_SUCCESS,
+  ADD_QUERY,
 } from './action';
 
 const token = localStorage.getItem('token');
@@ -88,6 +89,7 @@ const initialState = {
   showError: false,
   isEditing: false,
   editInvoiceId: '',
+  query: [],
 };
 
 const AppContext = React.createContext();
@@ -158,6 +160,19 @@ const AppProvider = ({ children }) => {
   const displayForm = value => {
     dispatch({ type: DISPLAY_FORM, payload: value });
   };
+
+  const addQuery = value => {
+    const tempArray = [...state.query];
+
+    if (tempArray.includes(value)) {
+      tempArray.splice(tempArray.indexOf(value), 1);
+    } else {
+      tempArray.push(value);
+    }
+
+    dispatch({ type: ADD_QUERY, payload: tempArray });
+  };
+
   /*=====  End of GLOBAL FUNCTIONS  ======*/
 
   /*=============================================
@@ -222,7 +237,11 @@ const AppProvider = ({ children }) => {
 
   //---- Get All Invoice
   const getAllInvoices = async () => {
-    let url = `/invoices`;
+    let url = `/invoices?`;
+
+    if (state.query.length > 0) {
+      state.query.map(item => (url += `status=${item}&`));
+    }
 
     dispatch({ type: GET_INVOICES_BEGIN });
 
@@ -322,8 +341,8 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Edit Invoice
-  const setEditJob = () => {
-    dispatch({ type: SET_EDIT_JOB });
+  const setEditInvoice = () => {
+    dispatch({ type: SET_EDIT_INVOICE });
   };
 
   const editInvoice = async () => {
@@ -444,12 +463,13 @@ const AppProvider = ({ children }) => {
         createInvoice,
         handleChange,
         displayForm,
+        addQuery,
         addInvoiceItem,
         changeInvoiceItemValue,
         deleteInvoiceItem,
         getAllInvoices,
         getSingleInvoice,
-        setEditJob,
+        setEditInvoice,
         editInvoice,
         changeInvoiceStatus,
         deleteInvoice,

@@ -18,8 +18,8 @@ const Wrapper = styled.nav`
   }
 
   @media ${mediaQuery.desktop} {
+    position: fixed;
     width: 103px;
-    height: 100%;
     min-height: 100vh;
     border-bottom-right-radius: var(--br-lg);
     flex-direction: column;

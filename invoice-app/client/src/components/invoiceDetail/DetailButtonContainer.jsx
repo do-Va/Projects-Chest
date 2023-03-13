@@ -5,11 +5,12 @@ import { Button } from '../common';
 import Wrapper from './styles/detailButtonContainer';
 
 const DetailButtonContainer = ({ margin }) => {
-  const { setEditJob, changeInvoiceStatus, deleteInvoice } = useAppContext();
+  const { setEditInvoice, changeInvoiceStatus, deleteInvoice } =
+    useAppContext();
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    setEditJob();
+    setEditInvoice();
   };
 
   const handleDelete = () => {

@@ -80,7 +80,17 @@ const createInvoice = async (req, res) => {
 =============================================*/
 
 const getAllInvoices = async (req, res) => {
-  const invoices = await Invoice.find({ createdBy: req.user.userId });
+  const { status } = req.query;
+
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+
+  if (status) {
+    queryObject.status = { $in: status };
+  }
+
+  const invoices = await Invoice.find(queryObject);
 
   res.status(StatusCodes.OK).json({ invoices, totalInvoices: invoices.length });
 };

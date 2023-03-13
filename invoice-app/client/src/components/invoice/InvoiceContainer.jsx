@@ -5,11 +5,11 @@ import { InvoiceItem, EmptyInvoice } from '.';
 import { Loader } from '../common';
 
 const InvoiceContainer = ({ graterThanTablet }) => {
-  const { getAllInvoices, invoices, isLoading } = useAppContext();
+  const { getAllInvoices, invoices, isLoading, query } = useAppContext();
 
   useEffect(() => {
     getAllInvoices();
-  }, []);
+  }, [query]);
 
   if (isLoading) {
     return <Loader />;

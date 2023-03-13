@@ -19,7 +19,7 @@ import {
   GET_SINGLE_INVOICE_BEGIN,
   GET_SINGLE_INVOICE_ERROR,
   GET_SINGLE_INVOICE_SUCCESS,
-  SET_EDIT_JOB,
+  SET_EDIT_INVOICE,
   EDIT_INVOICE_BEGIN,
   EDIT_INVOICE_ERROR,
   EDIT_INVOICE_SUCCESS,
@@ -29,6 +29,7 @@ import {
   DELETE_INVOICE_BEGIN,
   DELETE_INVOICE_ERROR,
   DELETE_INVOICE_SUCCESS,
+  ADD_QUERY,
 } from './action';
 
 import { initialState } from './appContext';
@@ -90,6 +91,14 @@ const reducer = (state, action) => {
     return {
       ...state,
       showForm: action.payload,
+      invoiceAlert: false,
+    };
+  }
+
+  if (action.type === ADD_QUERY) {
+    return {
+      ...state,
+      query: action.payload,
     };
   }
   //#endregion
@@ -196,7 +205,7 @@ const reducer = (state, action) => {
     };
   }
 
-  if (action.type === SET_EDIT_JOB) {
+  if (action.type === SET_EDIT_INVOICE) {
     const {
       _id,
       name,

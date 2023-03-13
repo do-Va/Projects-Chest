@@ -6,12 +6,16 @@ const Wrapper = styled.section`
   flex-direction: column;
   padding-top: 32px;
 
+  flex: 1;
+
   @media ${mediaQuery.tablet} {
     padding-top: 61px;
+    padding-bottom: 50px;
   }
 
   @media ${mediaQuery.desktop} {
     padding-top: 77px;
+    padding-left: 103px;
   }
 `;
 
